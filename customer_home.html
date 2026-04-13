@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parlor Perfect - Beauty Services</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --baby-pink: #FFB6D9;
+            --light-pink: #FFC9E0;
+            --dark-pink: #FF69B4;
+            --white: #FFFFFF;
+            --light-gray: #F8F8F8;
+            --text-dark: #333333;
+            --accent-gold: #FFD700;
+            --accent-rose: #FF1493;
+            --danger: #FF6B6B;
+            --success: #51CF66;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #F5F7FA 0%, #FFE4F0 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            padding: 15px 30px;
+            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.1);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--dark-pink), var(--accent-rose));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 14px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--dark-pink);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-logout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 80vh;
+            background: linear-gradient(135deg, var(--baby-pink) 0%, #FFE4F0 50%, #FFF0F5 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '✨';
+            position: absolute;
+            top: 10%;
+            right: 5%;
+            font-size: 100px;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '💅';
+            position: absolute;
+            bottom: 15%;
+            left: 5%;
+            font-size: 80px;
+            opacity: 0.1;
+            animation: float 7s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(20px); }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--dark-pink), var(--accent-rose));
+            color: white;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(255, 105, 180, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--dark-pink);
+            padding: 15px 35px;
+            border: 2px solid var(--dark-pink);
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--baby-pink);
+            transform: translateY(-3px);
+        }
+
+        /* Festival Discount Banner */
+        .festival-banner {
+            background: linear-gradient(135deg, var(--dark-pink), var(--accent-rose));
+            color: white;
+            padding: 40px;
+            margin: 50px 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(255, 105, 180, 0.3);
+            animation: slideIn 0.8s ease-out 0.3s both;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .festival-banner h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .festival-banner .discount-big {
+            font-size: 48px;
+            font-weight: 800;
+            margin: 15px 0;
+        }
+
+        .festival-banner p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* Services Section */
+        .section {
+            padding: 60px 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.1);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .service-card:nth-child(1) { animation-delay: 0.1s; }
+        .service-card:nth-child(2) { animation-delay: 0.2s; }
+        .service-card:nth-child(3) { animation-delay: 0.3s; }
+        .service-card:nth-child(n+4) { animation-delay: 0.4s; }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(255, 105, 180, 0.2);
+        }
+
+        .service-icon {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, var(--baby-pink), var(--light-pink));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+        }
+
+        .service-body {
+            padding: 25px;
+        }
+
+        .service-category {
+            background: var(--baby-pink);
+            color: var(--dark-pink);
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .service-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .service-desc {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .service-pricing {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .original-price {
+            font-size: 14px;
+            color: #999;
+            text-decoration: line-through;
+        }
+
+        .current-price {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--dark-pink);
+        }
+
+        .discount-badge {
+            background: var(--danger);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .service-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--baby-pink);
+            color: var(--dark-pink);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .service-btn:hover {
+            background: var(--dark-pink);
+            color: white;
+            transform: scale(1.02);
+        }
+
+        /* Features Section */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .feature-box {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 105, 180, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            color: var(--dark-pink);
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .feature-text {
+            font-size: 13px;
+            color: #999;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 50px 30px 20px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--baby-pink);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+        }
+
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--baby-pink);
+            color: var(--dark-pink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 0;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 32px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+            }
+
+            .nav-menu {
+                gap: 15px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .festival-banner {
+                margin: 30px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-brand">✨ Parlor Perfect</div>
+        <ul class="nav-menu">
+            <li><a href="#services">Services</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="/bookings">My Bookings</a></li>
+            <li><a href="/profile">Profile</a></li>
+        </ul>
+        <div class="nav-actions">
+            <span id="userName" style="font-weight: 600; color: var(--dark-pink);">Welcome!</span>
+            <a href="/logout" class="btn-small btn-logout">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Glow Up, Sparkle Always!</h1>
+            <p class="hero-subtitle">Premium beauty treatments at affordable prices. Experience luxury spa and salon services.</p>
+            <div class="hero-cta">
+                <button class="btn-primary" onclick="document.getElementById('services').scrollIntoView()">
+                    <i class="fas fa-spa"></i> Explore Services
+                </button>
+                <button class="btn-secondary" onclick="window.location.href='/bookings'">
+                    <i class="fas fa-calendar"></i> Book Now
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Festival Discount Banner -->
+    <div id="festivalBanner" class="festival-banner" style="display: none;">
+        <h2>🎉 Festival Special 🎉</h2>
+        <div class="discount-big" id="bannerDiscount">0%</div>
+        <p id="bannerDesc">Limited time offer on all services!</p>
+    </div>
+
+    <!-- Services Section -->
+    <section class="section" id="services">
+        <h2 class="section-title">Our Premium Services</h2>
+        <div id="servicesContainer" class="services-grid">
+            <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                <i class="fas fa-spinner fa-spin" style="font-size: 40px; color: var(--dark-pink);"></i>
+                <p style="margin-top: 20px; color: #999;">Loading services...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section">
+        <h2 class="section-title">Why Choose Us?</h2>
+        <div class="features">
+            <div class="feature-box">
+                <div class="feature-icon"><i class="fas fa-star"></i></div>
+                <h3 class="feature-title">Expert Staff</h3>
+                <p class="feature-text">Highly trained beauty professionals with years of experience</p>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon"><i class="fas fa-medal"></i></div>
+                <h3 class="feature-title">Premium Quality</h3>
+                <p class="feature-text">We use only branded and certified beauty products</p>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                <h3 class="feature-title">Hygienic</h3>
+                <p class="feature-text">100% hygienic and sanitized treatments and equipment</p>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon"><i class="fas fa-clock"></i></div>
+                <h3 class="feature-title">Flexible Hours</h3>
+                <p class="feature-text">Open 7 days a week for your convenience</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <div style="max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(255, 105, 180, 0.1);">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                <div>
+                    <h3 style="color: var(--dark-pink); margin-bottom: 15px; font-size: 18px;">
+                        <i class="fas fa-map-marker-alt"></i> Location
+                    </h3>
+                    <p style="color: #666; font-size: 14px; line-height: 1.6;">
+                        <strong>Parlor Perfect</strong><br>
+                        123 Beauty Lane<br>
+                        Hyderabad, Telangana 500001<br>
+                        Opp. Central Mall
+                    </p>
+                </div>
+                <div>
+                    <h3 style="color: var(--dark-pink); margin-bottom: 15px; font-size: 18px;">
+                        <i class="fas fa-phone"></i> Contact
+                    </h3>
+                    <p style="color: #666; font-size: 14px; margin-bottom: 10px;">
+                        <a href="tel:+919876543210" style="color: var(--dark-pink); text-decoration: none; font-weight: 600;">+91 98765 43210</a>
+                    </p>
+                    <p style="color: #666; font-size: 14px;">
+                        <a href="https://wa.me/919876543210" target="_blank" style="color: var(--dark-pink); text-decoration: none; font-weight: 600;">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px; padding-top: 30px; border-top: 1px solid #eee; text-align: center;">
+                <h3 style="color: var(--dark-pink); margin-bottom: 15px;">Follow Us</h3>
+                <div style="display: flex; justify-content: center; gap: 15px;">
+                    <a href="https://www.instagram.com/parlor.perfect" target="_blank" style="width: 45px; height: 45px; border-radius: 50%; background: var(--baby-pink); color: var(--dark-pink); display: flex; align-items: center; justify-content: center; font-size: 20px; text-decoration: none; transition: all 0.3s ease;" onmouseover="this.style.background='var(--dark-pink)'; this.style.color='white';" onmouseout="this.style.background='var(--baby-pink)'; this.style.color='var(--dark-pink)';">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://wa.me/919876543210" target="_blank" style="width: 45px; height: 45px; border-radius: 50%; background: var(--baby-pink); color: var(--dark-pink); display: flex; align-items: center; justify-content: center; font-size: 20px; text-decoration: none; transition: all 0.3s ease;" onmouseover="this.style.background='var(--dark-pink)'; this.style.color='white';" onmouseout="this.style.background='var(--baby-pink)'; this.style.color='var(--dark-pink)';">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="tel:+919876543210" style="width: 45px; height: 45px; border-radius: 50%; background: var(--baby-pink); color: var(--dark-pink); display: flex; align-items: center; justify-content: center; font-size: 20px; text-decoration: none; transition: all 0.3s ease;" onmouseover="this.style.background='var(--dark-pink)'; this.style.color='white';" onmouseout="this.style.background='var(--baby-pink)'; this.style.color='var(--dark-pink)';">
+                        <i class="fas fa-phone"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p style="color: #ccc; font-size: 13px; line-height: 1.6;">Parlor Perfect is your one-stop destination for premium beauty and wellness services with expert staff and premium products.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Services</h3>
+                <ul>
+                    <li><a href="#">Facials</a></li>
+                    <li><a href="#">Nails</a></li>
+                    <li><a href="#">Waxing</a></li>
+                    <li><a href="#">Hair Services</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="/bookings">My Bookings</a></li>
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/parlor.perfect" target="_blank" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://wa.me/919876543210" target="_blank" title="WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="tel:+919876543210" title="Call">
+                        <i class="fas fa-phone"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Parlor Perfect. All rights reserved. Made with ❤️ for beauty lovers.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anime.js/3.2.1/anime.min.js"></script>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Load user name
+        async function loadUserName() {
+            try {
+                const response = await fetch('/api/profile');
+                const user = await response.json();
+                document.getElementById('userName').textContent = `Welcome, ${user.name}!`;
+            } catch (error) {
+                console.error('Error loading profile:', error);
+            }
+        }
+
+        // Load services
+        async function loadServices() {
+            try {
+                const response = await fetch('/api/services');
+                const services = await response.json();
+                renderServices(services);
+            } catch (error) {
+                console.error('Error loading services:', error);
+                document.getElementById('servicesContainer').innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: red;">Error loading services</p>';
+            }
+        }
+
+        function renderServices(services) {
+            const container = document.getElementById('servicesContainer');
+            let html = '';
+
+            for (const category in services) {
+                services[category].forEach(service => {
+                    const discountedPrice = service.base_price * (1 - service.discount_percent / 100);
+                    html += `
+                        <div class="service-card">
+                            <div class="service-icon">
+                                ${getServiceIcon(service.category)}
+                            </div>
+                            <div class="service-body">
+                                <div class="service-category">${service.category}</div>
+                                <h3 class="service-name">${service.service_name}</h3>
+                                <p class="service-desc">${service.description || 'Premium service'}</p>
+                                
+                                <div class="service-pricing">
+                                    <span class="original-price">₹${service.base_price}</span>
+                                    <span class="current-price">₹${discountedPrice.toFixed(2)}</span>
+                                    ${service.discount_percent > 0 ? `<span class="discount-badge">${service.discount_percent}% OFF</span>` : ''}
+                                </div>
+
+                                <button class="service-btn" onclick="bookService('${service.service_name}', ${service.id})">
+                                    <i class="fas fa-calendar"></i> Book Now
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            if (!html) {
+                html = '<p style="grid-column: 1/-1; text-align: center; color: #999;">No services available</p>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        function getServiceIcon(category) {
+            const icons = {
+                'Facials': '✨',
+                'Hydra Facial': '💎',
+                'Nails': '💅',
+                'Waxing': '✂️',
+                'Threading': '🧵',
+                'Bleach': '🧴',
+                'Hair': '💇',
+                'Makeup': '💄'
+            };
+            return icons[category] || '💆';
+        }
+
+        // Load festival discount
+        async function loadFestivalDiscount() {
+            try {
+                const response = await fetch('/api/festival-discount');
+                const discount = await response.json();
+                
+                if (discount.is_active && discount.discount_percent > 0) {
+                    document.getElementById('festivalBanner').style.display = 'block';
+                    document.getElementById('bannerDiscount').textContent = discount.discount_percent + '%';
+                    document.getElementById('bannerDesc').textContent = discount.description || 'Limited time offer!';
+                }
+            } catch (error) {
+                console.error('Error loading discount:', error);
+            }
+        }
+
+        function bookService(serviceName, serviceId) {
+            // Redirect to bookings page or open booking modal
+            window.location.href = '/bookings';
+        }
+
+        // GSAP animations
+        gsap.from('.hero-content', {
+            duration: 1,
+            opacity: 0,
+            y: 50,
+            ease: 'power3.out'
+        });
+
+        gsap.from('nav', {
+            duration: 0.8,
+            opacity: 0,
+            y: -30,
+            ease: 'power2.out'
+        });
+
+        // Scroll animations
+        gsap.to('.service-card', {
+            scrollTrigger: {
+                trigger: '#services',
+                start: 'top center',
+                end: 'center center',
+                scrub: 1
+            },
+            opacity: 1,
+            y: 0
+        });
+
+        // Hover animations for feature boxes
+        document.querySelectorAll('.feature-box').forEach(box => {
+            box.addEventListener('mouseenter', function() {
+                gsap.to(this, {
+                    y: -10,
+                    boxShadow: '0 15px 40px rgba(255, 105, 180, 0.2)',
+                    duration: 0.3
+                });
+                gsap.to(this.querySelector('.feature-icon'), {
+                    scale: 1.2,
+                    rotation: 10,
+                    duration: 0.3
+                });
+            });
+
+            box.addEventListener('mouseleave', function() {
+                gsap.to(this, {
+                    y: 0,
+                    boxShadow: '0 10px 30px rgba(255, 105, 180, 0.1)',
+                    duration: 0.3
+                });
+                gsap.to(this.querySelector('.feature-icon'), {
+                    scale: 1,
+                    rotation: 0,
+                    duration: 0.3
+                });
+            });
+        });
+
+        // Load data on page load
+        window.addEventListener('load', () => {
+            loadUserName();
+            loadServices();
+            loadFestivalDiscount();
+        });
+    </script>
+</body>
+</html>
